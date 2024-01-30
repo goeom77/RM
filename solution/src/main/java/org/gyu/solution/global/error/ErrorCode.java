@@ -16,11 +16,10 @@ public enum ErrorCode {
 
     /*로그인*/
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "L001", "로그인이 필요합니다."),
-    FAIL_LOGIN(HttpStatus.BAD_REQUEST, "L002", "로그인 실패"),
-    NEED_INTERGRATED_LOGIN(HttpStatus.NOT_FOUND, "L003", "통합ID 로그인이 필요합니다"),
+    FAIL_LOGIN(HttpStatus.BAD_REQUEST, "L002", "잘못된 아이디 또는 비밀번호입니다."),
 
     /*유저*/
-    NOT_FOUND_USER(HttpStatus.NOT_FOUND, "U001", "존재하지 않는 유저입니다.");
+    DUPLICATE_USER(HttpStatus.FORBIDDEN, "U001", "존재하는 유저입니다.");
 
     private final HttpStatus status;
     private final String code;
