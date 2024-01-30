@@ -31,7 +31,7 @@ public class ApplicationConfig {
         authenticationProvider.setPasswordEncoder(passwordEncoder()); // 비밀번호 인코더 설정
         return authenticationProvider;
     }
-    // 인증 관리자를 Bean으로 등록. Spring Security에서 중요한 역할을 하는 인터페이스
+    // 인증 관리자를 Bean으로 등록.
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager(); // 기본 인증 관리자를 가져옴

@@ -8,8 +8,10 @@
     </settings>
     <typeAliases>
         <typeAlias type="org.gyu.solution.user.entity.User" alias="User"/>
-
     </typeAliases>
+<!--    <typeHandlers>-->
+<!--        <typeHandler handler="org.gyu.solution.global.handler.OptionalTypeHandler"/>-->
+<!--    </typeHandlers>-->
     <mappers>
 
     </mappers>

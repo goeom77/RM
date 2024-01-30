@@ -47,12 +47,14 @@ public class JwtTokenProvider {
             Map<String, Objects> extractClaims,
             UserDetails userDetails
     ) {
-        log.info("generateToken : ", extractClaims, userDetails);
+//        log.info("generateToken : ", extractClaims, userDetails);
+        System.out.println("generateToken : " + extractClaims + userDetails);
         return Jwts.builder()
                 .setClaims(extractClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new java.util.Date(System.currentTimeMillis()))
-                .setExpiration(new java.util.Date(System.currentTimeMillis() + env.getProperty("JWT.EXPIRATION_TIME",Long.class)))
+                .setExpiration(new java.util.Date(System.currentTimeMillis()
+                        + env.getProperty("JWT.EXPIRATION_TIME",Long.class)))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
