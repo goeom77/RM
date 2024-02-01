@@ -20,8 +20,8 @@ public class ApplicationConfig {
     // 사용자의 세부 정보를 제공하는 서비스를 Bean으로 등록
     @Bean
     public UserDetailsService userDetailsService() {
-        return loginId -> userDao.findByLoginId(loginId)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found : {}" + loginId));
+        return uuid -> userDao.findByUUID(uuid)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found : {}" + uuid));
     }
     // 인증 제공자를 Bean으로 등록. 여기서는 DaoAuthenticationProvider를 사용
     @Bean
