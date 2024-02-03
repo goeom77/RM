@@ -19,7 +19,10 @@ public enum ErrorCode {
     FAIL_LOGIN(HttpStatus.BAD_REQUEST, "L002", "잘못된 아이디 또는 비밀번호입니다."),
 
     /*유저*/
-    DUPLICATE_USER(HttpStatus.FORBIDDEN, "U001", "존재하는 유저입니다.");
+    DUPLICATE_USER(HttpStatus.FORBIDDEN, "U001", "존재하는 유저입니다."),
+
+    /*토큰 에러*/
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "T001", "유효하지 않은 토큰입니다.");
 
     private final HttpStatus status;
     private final String code;

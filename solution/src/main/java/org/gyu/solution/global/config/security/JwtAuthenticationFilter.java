@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         // JWT 토큰 및 사용자 ID를 초기화합니다.
         final String jwt;
-        final String loginId;
+        final String uuid;
         // authHeader가 null이거나 "Bearer "로 시작하지 않으면 다음 필터로 전달합니다.
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
@@ -45,11 +45,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         jwt = authHeader.substring(7); // "Bearer " 제외
         // JWT 토큰에서 사용자 UUID를 가져옵니다.
-        loginId = jwtTokenProvider.getLoginId(jwt);
+        uuid = jwtTokenProvider.getUUID(jwt);
         // 유효성 검사
-        if (loginId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // loginId 기반으로 사용자 정보를 가져옵니다.
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(loginId);
+        if (uuid != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            // uuid 기반으로 사용자 정보를 가져옵니다.
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(uuid);
             // 토큰이 유효한 경우 인증 정보를 생성하고 Security Context에 설정합니다.
             if (jwtTokenProvider.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(

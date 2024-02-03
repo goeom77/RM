@@ -8,6 +8,9 @@ import org.gyu.solution.user.dao.UserDao;
 import org.gyu.solution.user.dto.UserDto;
 import org.gyu.solution.user.entity.User;
 import org.gyu.solution.user.vo.UserLoginOut;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +48,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserLoginOut login(UserDto userDto) {
         User user = userDao.findByLoginId(userDto.getLoginId())
-                .orElseThrow(() -> new BusinessException(ErrorCode.FAIL_LOGIN));
+                .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_TOKEN));
         if (!new BCryptPasswordEncoder().matches(userDto.getPassword(), user.getPassword())) {
             throw new BusinessException(ErrorCode.FAIL_LOGIN);
         }
@@ -53,6 +56,18 @@ public class UserServiceImpl implements UserService{
         return UserLoginOut.builder()
                 .token(jwtTokenProvider.generateToken(user))
                 .build();
+    }
+
+    @Override
+    public User findUserByToken() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            String uuid = authentication.getName();
+            return userDao.findByUUID(uuid)
+                    .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_TOKEN));
+        }
+        throw new BusinessException(ErrorCode.INVALID_TOKEN);
     }
 
 

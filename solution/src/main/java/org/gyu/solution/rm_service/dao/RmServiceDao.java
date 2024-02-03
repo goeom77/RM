@@ -2,6 +2,7 @@ package org.gyu.solution.rm_service.dao;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.gyu.solution.rm_service.entity.RmService;
 
 @Mapper
@@ -12,5 +13,6 @@ public interface RmServiceDao {
             "VALUES " +
             "(#{serviceType}, #{storageSize}, #{createdDate}, #{expirationDate}, " +
             "#{company}, #{phoneNumber}, #{email}, #{address})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     void save(RmService rmService);
 }
