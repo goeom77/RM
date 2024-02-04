@@ -25,18 +25,15 @@ public class JwtTokenProvider {
     // 스프링의 Environment 인터페이스를 주입받아 환경 속성에 액세스합니다.
     private final Environment env;
 
-    // JWT 토큰에서 UUID(사용자명)을 추출합니다. token -> loginId
-    public String getLoginId(String token) {
+    // JWT 토큰에서 UUID(사용자명)을 추출합니다.
+    public String getUUID(String token) {
         return extractClaim(token, Claims::getSubject);
     }
     // JWT 토큰의 claims 부분에서 특정 claim을 추출합니다.
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-//        log.info("extractClaim method : {}",token);
         Claims claims = extractAllClaims(token);
-//        log.info("Clims: {}",claims);
         return claimsResolver.apply(claims);
     }
-
 
     // UserDetails 객체를 사용하여 JWT 토큰을 생성합니다. loginId -> token
     public String generateToken(UserDetails userDetails) {
@@ -47,8 +44,6 @@ public class JwtTokenProvider {
             Map<String, Objects> extractClaims,
             UserDetails userDetails
     ) {
-//        log.info("generateToken : ", extractClaims, userDetails);
-        System.out.println("generateToken : " + extractClaims + userDetails);
         return Jwts.builder()
                 .setClaims(extractClaims)
                 .setSubject(userDetails.getUsername())
@@ -60,8 +55,8 @@ public class JwtTokenProvider {
     }
     // JWT 토큰이 유효한지 검증합니다. 토큰의 사용자명과 UserDetails의 사용자명이 일치하고 토큰이 만료되지 않았는지 확인합니다.
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String loginId = getLoginId(token);
-        return (loginId.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String uuid = getUUID(token);
+        return (uuid.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
     // JWT 토큰이 만료되었는지 확인합니다.
     private Boolean isTokenExpired(String token) {
@@ -73,7 +68,7 @@ public class JwtTokenProvider {
     }
     // JWT 토큰의 모든 claims를 추출합니다.
     private Claims extractAllClaims(String token) {
-        log.info("extractAllClaims {}", token);
+//        log.info("extractAllClaims {}", token);
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getSigningKey())

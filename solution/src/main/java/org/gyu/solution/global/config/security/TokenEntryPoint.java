@@ -26,7 +26,7 @@ public class TokenEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        String result = objectMapper.writeValueAsString(ErrorResponse.of(ErrorCode.UNAUTHORIZED));
+        String result = objectMapper.writeValueAsString(ErrorResponse.of(ErrorCode.INVALID_TOKEN));
         PrintWriter out = response.getWriter();
         out.print(result);
         out.flush();

@@ -16,6 +16,7 @@ public class User implements UserDetails {
     private Long id;
     private String loginId;
     private String password;
+    private String name;
     private String UUID;
 
     @Override
