@@ -17,7 +17,6 @@ public class RmServiceServiceImpl implements RmServiceService{
     private final RmServiceDao rmServiceDao;
     @Override
     public RmService createService(ServiceDto serviceDto) {
-        System.out.println("serviceDto = " + serviceDto);
         RmService rmService = RmService.builder()
                 .serviceType(ServiceType.valueOf(serviceDto.getServiceType()))
                 .storageSize(serviceDto.getStorageSize())

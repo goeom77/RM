@@ -1,18 +1,16 @@
-package org.gyu.solution.data_usage.entity;
+package org.gyu.solution.data_usage.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DataUsage {
-    private Long id;
+public class CheckJoinServiceDto {
     private Long userId; // 식별자
     private Long serviceId; // 식별자
     private Long managerId;
-    private Boolean status; // default false
 }

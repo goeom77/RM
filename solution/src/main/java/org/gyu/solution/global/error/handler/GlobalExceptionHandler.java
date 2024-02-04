@@ -1,5 +1,6 @@
 package org.gyu.solution.global.error.handler;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.gyu.solution.global.error.ErrorCode;
 import org.gyu.solution.global.error.ErrorResponse;
@@ -79,6 +80,8 @@ public class GlobalExceptionHandler {
         final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
     /**
      * 나머지 모든 예외 처리
      */

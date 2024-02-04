@@ -7,6 +7,7 @@ import org.springframework.core.env.Environment;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
 
@@ -14,25 +15,26 @@ import java.util.Objects;
 public class Encryptor {
     private final Environment env;
     private static final String ALGORITHM = "AES";
-// env.getProperty("ENCRYPT.ENCRYPT_SECRET_KEY",String.class);
-    public String encrypt(String value) {
-        try{
-            SecretKeySpec keySpec =
-                    new SecretKeySpec(Objects.requireNonNull(env.getProperty(
-                            "ENCRYPT.ENCRYPT_SECRET_KEY"
-                            , String.class)
-                    ).getBytes(), ALGORITHM);
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.ENCRYPT_MODE, keySpec);
-            byte[] encrypted = cipher.doFinal(value.getBytes());
-            return Base64.getEncoder().encodeToString(encrypted);
-        } catch (Exception e) {
-            throw new BusinessException(ErrorCode.INTERNAL_SERVER_ERROR);
-            // todo: 에러 처리
-        }
+
+public String encryptTokens(String value1, String value2) {
+    try {
+        String combinedValue = value1 + "-" + value2; // 예시에서는 "-"를 구분자로 사용
+        SecretKeySpec keySpec =
+                new SecretKeySpec(Objects.requireNonNull(env.getProperty(
+                        "ENCRYPT.ENCRYPT_SECRET_KEY"
+                        , String.class)
+                ).getBytes(), ALGORITHM);
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.ENCRYPT_MODE, keySpec);
+        byte[] encrypted = cipher.doFinal(combinedValue.getBytes());
+        return Base64.getEncoder().encodeToString(encrypted);
+    } catch (Exception e) {
+        throw new BusinessException(ErrorCode.ENCRYPT_ERROR);
     }
-    public String decrypt(String value) {
-        try{
+}
+
+    public String[] decryptTokens(String encryptedToken) {
+        try {
             SecretKeySpec keySpec =
                     new SecretKeySpec(Objects.requireNonNull(env.getProperty(
                             "ENCRYPT.ENCRYPT_SECRET_KEY"
@@ -40,11 +42,11 @@ public class Encryptor {
                     ).getBytes(), ALGORITHM);
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, keySpec);
-            byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(value));
-            return new String(decrypted);
+            byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(encryptedToken));
+            String combinedValue = new String(decrypted);
+            return combinedValue.split("-"); // 예시에서는 "-"를 구분자로 사용
         } catch (Exception e) {
-            throw new BusinessException(ErrorCode.INTERNAL_SERVER_ERROR);
-            // todo: 에러 처리
+            throw new BusinessException(ErrorCode.ENCRYPT_ERROR);
         }
     }
 }

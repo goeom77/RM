@@ -29,7 +29,7 @@ public class RmServiceController {
     private final DataUsageService dataUsageService;
 
     @PostMapping("/create")
-    @Operation(summary = "서비스 구독 신청", description = "서비스 구독 가입을 진행합니다.", tags = {"Service"})
+    @Operation(summary = "서비스 구독 신청", description = "서비스 구독 신청을 진행합니다.", tags = {"Service"})
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "서비스 생성 성공"),
             @ApiResponse(responseCode = "500", description = "에러")
@@ -39,7 +39,7 @@ public class RmServiceController {
         ServiceDto serviceDto = modelMapper.map(createServiceIn, ServiceDto.class);
         RmService rmService = rmServiceService.createService(serviceDto);
         User user = userService.findUserByToken();
-        dataUsageService.createDataUsage(user, rmService, true);
+        dataUsageService.createDataUsageByManager(user, rmService);
         return Response.ofSuccess();
     }
 }

@@ -1,18 +1,20 @@
-package org.gyu.solution.data_usage.entity;
+package org.gyu.solution.data_usage.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Builder
+import java.util.List;
+
 @Getter
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
-public class DataUsage {
-    private Long id;
+@NoArgsConstructor
+public class SubscriptionListOut {
     private Long userId; // 식별자
     private Long serviceId; // 식별자
     private Long managerId;
-    private Boolean status; // default false
+    private Boolean status;
+    private String token;
 }
