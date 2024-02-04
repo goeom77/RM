@@ -22,6 +22,8 @@ public class RmServiceServiceImpl implements RmServiceService{
                 .storageSize(serviceDto.getStorageSize())
                 .createdDate(serviceDto.getCreatedDate())
                 .expirationDate(serviceDto.getExpirationDate())
+                .limitUser(serviceDto.getLimitUser())
+                .nickName(serviceDto.getNickName())
                 .company(serviceDto.getCompany())
                 .phoneNumber(serviceDto.getPhoneNumber())
                 .email(serviceDto.getEmail())
@@ -29,6 +31,11 @@ public class RmServiceServiceImpl implements RmServiceService{
                 .build();
         rmServiceDao.save(rmService);
         return rmService;
+    }
+
+    @Override
+    public ServiceDto findServiceById(Long serviceId) {
+        return rmServiceDao.findServiceById(serviceId);
     }
 
 }

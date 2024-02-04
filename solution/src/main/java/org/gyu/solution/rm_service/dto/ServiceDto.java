@@ -16,6 +16,8 @@ public class ServiceDto {
     private Double storageSize;
     private LocalDateTime createdDate;
     private LocalDateTime expirationDate;
+    private Integer limitUser;
+    private String nickName;
     private String company;
     private String phoneNumber;
     private String email;

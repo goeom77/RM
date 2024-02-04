@@ -6,7 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class SubscriptionDto {
+public class DataUsageDto {
     private Long id;
     private Long userId; // 식별자
     private Long serviceId; // 식별자

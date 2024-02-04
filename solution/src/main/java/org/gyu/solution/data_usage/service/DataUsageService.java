@@ -12,4 +12,5 @@ public interface DataUsageService {
     void createDataUsageByUser(User user, CheckJoinServiceDto checkJoinServiceDto);
     List<SubscriptionListOut> findDataUsageList(Long userId);
     CheckJoinServiceDto checkJoinService(User user, String token);
+    List<Long> findUserIdListByServiceIdAndManagerId(Long serviceId, Long id);
 }

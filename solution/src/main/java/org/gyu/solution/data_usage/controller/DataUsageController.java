@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.gyu.solution.data_usage.dto.CheckJoinServiceDto;
 import org.gyu.solution.data_usage.service.DataUsageService;
+import org.gyu.solution.data_usage.vo.JoinListOut;
+import org.gyu.solution.data_usage.vo.JoinOut;
 import org.gyu.solution.data_usage.vo.JoinServiceIn;
 import org.gyu.solution.data_usage.vo.SubscriptionListOut;
 import org.gyu.solution.global.base.Response;
@@ -14,6 +16,7 @@ import org.gyu.solution.user.entity.User;
 import org.gyu.solution.user.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -48,4 +51,14 @@ public class DataUsageController {
         return Response.ofSuccess();
     }
 
+    @GetMapping("/join_list")
+    public Response<?> joinList(@RequestParam("serviceId") Long serviceId) {
+        User user = userService.findUserByToken();
+        List<Long> userIdList =
+                dataUsageService.findUserIdListByServiceIdAndManagerId(serviceId, user.getId());
+        return Response.ofSuccess(JoinListOut.builder()
+                .serviceInfo(rmServiceService.findServiceById(serviceId))
+                .joinList(userService.findUserIdAndNameListByUserIdList(userIdList))
+                .build());
+    }
 }

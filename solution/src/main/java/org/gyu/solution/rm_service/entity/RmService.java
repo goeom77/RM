@@ -16,8 +16,10 @@ public class RmService {
     private Long id;
     private ServiceType serviceType;
     private Double storageSize;
+    private Integer limitUser;
     private LocalDateTime createdDate;
     private LocalDateTime expirationDate;
+    private String nickName;
     /**
      * 이하 company info ,nullable false
      */

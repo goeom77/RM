@@ -3,7 +3,7 @@ package org.gyu.solution.data_usage.service;
 import lombok.RequiredArgsConstructor;
 import org.gyu.solution.data_usage.dao.DataUsageDao;
 import org.gyu.solution.data_usage.dto.CheckJoinServiceDto;
-import org.gyu.solution.data_usage.dto.SubscriptionDto;
+import org.gyu.solution.data_usage.dto.DataUsageDto;
 import org.gyu.solution.data_usage.entity.DataUsage;
 import org.gyu.solution.data_usage.vo.SubscriptionListOut;
 import org.gyu.solution.global.base.Encryptor;
@@ -14,7 +14,6 @@ import org.gyu.solution.user.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -49,19 +48,19 @@ public class DataUsageServiceImpl implements DataUsageService{
 
     @Override
     public List<SubscriptionListOut> findDataUsageList(Long userId) {
-        List<SubscriptionDto> subscriptionDtoList = dataUsageDao.findAllByUserId(userId);
-        if (subscriptionDtoList == null || subscriptionDtoList.isEmpty()) {
+        List<DataUsageDto> dataUsageDtoList = dataUsageDao.findAllByUserId(userId);
+        if (dataUsageDtoList == null || dataUsageDtoList.isEmpty()) {
             throw new BusinessException(ErrorCode.NOT_FOUND_RESOURCE);
         }
         List<SubscriptionListOut> subscriptionOutList = new ArrayList<>();
-        for (SubscriptionDto subscriptionDto : subscriptionDtoList) {
-            String token = generateTokenIfUserIdEqualsManagerId(subscriptionDto.getId() ,subscriptionDto.getUserId(), subscriptionDto.getManagerId());
+        for (DataUsageDto dataUsageDto : dataUsageDtoList) {
+            String token = generateTokenIfUserIdEqualsManagerId(dataUsageDto.getId() , dataUsageDto.getUserId(), dataUsageDto.getManagerId());
             SubscriptionListOut subscriptionListOut = SubscriptionListOut.builder()
-                    .serviceId(subscriptionDto.getServiceId())
-                    .userId(subscriptionDto.getUserId())
-                    .managerId(subscriptionDto.getManagerId())
+                    .serviceId(dataUsageDto.getServiceId())
+                    .userId(dataUsageDto.getUserId())
+                    .managerId(dataUsageDto.getManagerId())
                     .token(token)
-                    .status(subscriptionDto.getStatus())
+                    .status(dataUsageDto.getStatus())
                     .build();
             subscriptionOutList.add(subscriptionListOut);
         }
@@ -83,6 +82,11 @@ public class DataUsageServiceImpl implements DataUsageService{
                 .serviceId(serviceId)
                 .managerId(userId)
                 .build();
+    }
+
+    @Override
+    public List<Long> findUserIdListByServiceIdAndManagerId(Long serviceId, Long managerId) {
+        return dataUsageDao.findAllUserIdByServiceIdAndManagerId(serviceId, managerId, false);
     }
 
     private String generateTokenIfUserIdEqualsManagerId(Long id, Long userId, Long managerId) {
