@@ -27,4 +27,16 @@ public class RmService {
     private String phoneNumber;
     private String email;
     private String address;
+    public void setServiceInfo(Double storageSize, Integer limitUser, LocalDateTime expirationDate) {
+        if (storageSize != null) {
+            this.storageSize = storageSize;
+        }
+        if (limitUser != null) {
+            this.limitUser = limitUser;
+        }
+        if (expirationDate != null) {
+            this.expirationDate = expirationDate;
+        }
+    }
+
 }

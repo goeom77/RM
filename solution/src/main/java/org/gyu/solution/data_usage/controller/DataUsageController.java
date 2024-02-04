@@ -71,6 +71,22 @@ public class DataUsageController {
                 .build());
     }
 
+    @PatchMapping("/join/accept")
+    @Operation(summary = "서비스 구독에 가입 신청 승인", description = "서비스 구독에 가입을 승인합니다.", tags = {"DataUsage"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "서비스 구독 요청 승인 성공"),
+            @ApiResponse(responseCode = "401", description = "토큰이 만료되었습니다."),
+            @ApiResponse(responseCode = "500", description = "에러")
+    })
+    public Response<?> acceptJoin(@RequestBody JoinAcceptIn joinAcceptIn) {
+        User user = userService.findUserByToken();
+        if (joinAcceptIn.getUserIdList().contains(user.getId())) {
+            throw new BusinessException(ErrorCode.MANAGER_DELETE_REQUEST);
+        }
+        dataUsageService.acceptJoin(joinAcceptIn);
+        return Response.ofSuccess();
+    }
+
     @DeleteMapping("/join/cancel")
     @Operation(summary = "서비스 구독에 가입 신청 거부", description = "서비스 구독에 가입을 거부합니다 or 구독 취소", tags = {"DataUsage"})
     @ApiResponses({

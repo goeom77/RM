@@ -7,10 +7,8 @@ import org.gyu.solution.rm_service.dao.RmServiceDao;
 import org.gyu.solution.rm_service.dto.ServiceDto;
 import org.gyu.solution.rm_service.entity.RmService;
 import org.gyu.solution.rm_service.entity.ServiceType;
-import org.gyu.solution.user.entity.User;
+import org.gyu.solution.rm_service.vo.UpdateServiceIn;
 import org.springframework.stereotype.Service;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 
 @Service
@@ -37,7 +35,7 @@ public class RmServiceServiceImpl implements RmServiceService{
 
     @Override
     public ServiceDto findServiceById(Long serviceId) {
-        return rmServiceDao.findServiceById(serviceId)
+        return rmServiceDao.findServiceDtoById(serviceId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_RESOURCE));
 
     }
@@ -48,6 +46,19 @@ public class RmServiceServiceImpl implements RmServiceService{
         if (limitUser < size) {
             throw new BusinessException(ErrorCode.OVER_LIMIT_USER);
         }
+    }
+
+    @Override
+    public void UpdateServiceInfo(UpdateServiceIn updateServiceIn) {
+        RmService rmService = rmServiceDao.findServiceById(updateServiceIn.getServiceId())
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_RESOURCE));
+        rmService.setServiceInfo(
+                updateServiceIn.getStorageSize(),
+                updateServiceIn.getLimitUser(),
+                updateServiceIn.getExpirationDate()
+        );
+        rmServiceDao.updateServiceInfo(rmService);
+
     }
 
 }
