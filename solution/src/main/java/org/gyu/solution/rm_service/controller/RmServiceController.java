@@ -5,7 +5,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.gyu.solution.data_usage.service.DataUsageService;
+import org.gyu.solution.data_usage.vo.JoinCancelIn;
 import org.gyu.solution.global.base.Response;
+import org.gyu.solution.global.error.ErrorCode;
+import org.gyu.solution.global.error.handler.BusinessException;
 import org.gyu.solution.rm_service.dto.ServiceDto;
 import org.gyu.solution.rm_service.entity.RmService;
 import org.gyu.solution.rm_service.service.RmServiceService;
@@ -14,10 +17,7 @@ import org.gyu.solution.user.entity.User;
 import org.gyu.solution.user.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/service")

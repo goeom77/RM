@@ -1,6 +1,8 @@
 package org.gyu.solution.rm_service.service;
 
 import lombok.RequiredArgsConstructor;
+import org.gyu.solution.global.error.ErrorCode;
+import org.gyu.solution.global.error.handler.BusinessException;
 import org.gyu.solution.rm_service.dao.RmServiceDao;
 import org.gyu.solution.rm_service.dto.ServiceDto;
 import org.gyu.solution.rm_service.entity.RmService;
@@ -35,7 +37,17 @@ public class RmServiceServiceImpl implements RmServiceService{
 
     @Override
     public ServiceDto findServiceById(Long serviceId) {
-        return rmServiceDao.findServiceById(serviceId);
+        return rmServiceDao.findServiceById(serviceId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_RESOURCE));
+
+    }
+
+    @Override
+    public void checkLimitNumber(Long serviceId, int size) {
+        int limitUser = rmServiceDao.findLimitUserById(serviceId);
+        if (limitUser < size) {
+            throw new BusinessException(ErrorCode.OVER_LIMIT_USER);
+        }
     }
 
 }

@@ -1,12 +1,11 @@
 package org.gyu.solution.data_usage.dao;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.gyu.solution.data_usage.dto.DataUsageDto;
 import org.gyu.solution.data_usage.entity.DataUsage;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface DataUsageDao {
@@ -23,4 +22,10 @@ public interface DataUsageDao {
     @Select("SELECT user_id FROM data_usage " +
             "WHERE service_id = #{serviceId} AND manager_id = #{managerId} AND status = #{status}")
     List<Long> findAllUserIdByServiceIdAndManagerId(Long serviceId, Long managerId, Boolean status);
+    @UpdateProvider(type = DataUsageSqlProvider.class, method = "updateStatusByUserIdListAndServiceId")
+    void updateStatusByUserIdListAndServiceId(Map<String, Object> params);
+    @Select("SELECT COUNT(*) FROM data_usage WHERE service_id = #{serviceId} AND status = #{status}")
+    Integer countByServiceIdAndStatus(Long serviceId, boolean status);
+    @DeleteProvider(type = DataUsageSqlProvider.class, method = "deleteDataUsageByUserIdListAndServiceId")
+    void deleteDataUsageByUserIdListAndServiceId(List<Long> userIdList, Long serviceId);
 }

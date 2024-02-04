@@ -21,7 +21,9 @@ public enum ErrorCode {
     DUPLICATE_USER(HttpStatus.FORBIDDEN, "U001", "존재하는 아이디입니다."),
     /* encrypt error*/
     ENCRYPT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "E001", "암호화 에러"),
-
+    /*서비스*/
+    OVER_LIMIT_USER(HttpStatus.FORBIDDEN, "S001", "사용자 수를 초과하였습니다."),
+    MANAGER_DELETE_REQUEST(HttpStatus.FORBIDDEN, "S002", "관리자를 삭제 요청하고 있습니다."),
     /*토큰 에러*/
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "T001", "유효하지 않은 토큰입니다.");
 

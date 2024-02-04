@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import org.gyu.solution.rm_service.dto.ServiceDto;
 import org.gyu.solution.rm_service.entity.RmService;
 
+import java.util.Optional;
+
 @Mapper
 public interface RmServiceDao {
     @Insert("INSERT INTO rm_service " +
@@ -18,5 +20,7 @@ public interface RmServiceDao {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void save(RmService rmService);
     @Select("SELECT * FROM rm_service WHERE id = #{serviceId}")
-    ServiceDto findServiceById(Long serviceId);
+    Optional<ServiceDto> findServiceById(Long serviceId);
+    @Select("SELECT limit_user FROM rm_service WHERE id = #{id}")
+    int findLimitUserById(Long id);
 }

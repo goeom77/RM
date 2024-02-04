@@ -5,6 +5,8 @@ import org.gyu.solution.data_usage.dao.DataUsageDao;
 import org.gyu.solution.data_usage.dto.CheckJoinServiceDto;
 import org.gyu.solution.data_usage.dto.DataUsageDto;
 import org.gyu.solution.data_usage.entity.DataUsage;
+import org.gyu.solution.data_usage.vo.JoinAcceptIn;
+import org.gyu.solution.data_usage.vo.JoinCancelIn;
 import org.gyu.solution.data_usage.vo.SubscriptionListOut;
 import org.gyu.solution.global.base.Encryptor;
 import org.gyu.solution.global.error.ErrorCode;
@@ -14,7 +16,9 @@ import org.gyu.solution.user.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -64,6 +68,9 @@ public class DataUsageServiceImpl implements DataUsageService{
                     .build();
             subscriptionOutList.add(subscriptionListOut);
         }
+        if (subscriptionOutList.isEmpty() || subscriptionOutList == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_RESOURCE);
+        }
         return subscriptionOutList;
     }
 
@@ -87,6 +94,24 @@ public class DataUsageServiceImpl implements DataUsageService{
     @Override
     public List<Long> findUserIdListByServiceIdAndManagerId(Long serviceId, Long managerId) {
         return dataUsageDao.findAllUserIdByServiceIdAndManagerId(serviceId, managerId, false);
+    }
+
+    @Override
+    public void acceptJoin(JoinAcceptIn joinAcceptIn) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("userIdList", joinAcceptIn.getUserIdList());
+        params.put("serviceId", joinAcceptIn.getServiceId());
+        dataUsageDao.updateStatusByUserIdListAndServiceId(params);
+    }
+
+    @Override
+    public Integer countByServiceIdAndStatus(Long serviceId, boolean status) {
+        return dataUsageDao.countByServiceIdAndStatus(serviceId, status);
+    }
+
+    @Override
+    public void refuseJoin(JoinCancelIn joinCancelIn) {
+        dataUsageDao.deleteDataUsageByUserIdListAndServiceId(joinCancelIn.getUserIdList(), joinCancelIn.getServiceId());
     }
 
     private String generateTokenIfUserIdEqualsManagerId(Long id, Long userId, Long managerId) {

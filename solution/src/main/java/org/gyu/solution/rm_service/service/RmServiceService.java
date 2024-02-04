@@ -7,4 +7,5 @@ import org.gyu.solution.user.entity.User;
 public interface RmServiceService {
     RmService createService(ServiceDto serviceDto);
     ServiceDto findServiceById(Long serviceId);
+    void checkLimitNumber(Long serviceId, int size);
 }
