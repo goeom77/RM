@@ -39,6 +39,7 @@ public class SecurityConfiguration {
                                         "/api/v1/user/join",
                                         "/api/v1/user/duplicate",
                                         "/api/v1/user/login",
+                                        "/api/v1/log_data/**",
                                         // swagger
                                         "/swagger-ui/**",
                                         "/swagger-resources/**",

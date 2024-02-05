@@ -1,13 +1,10 @@
 package org.gyu.solution.user.dao;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.jdbc.SQL;
 import org.gyu.solution.data_usage.vo.JoinOut;
 import org.gyu.solution.user.entity.User;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Mapper
