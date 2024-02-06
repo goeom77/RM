@@ -6,9 +6,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     redis:
-      host: "localhost
+      host: localhost
       port: 6379
-      password: {REDIS_PASSWORD}
       timeout: {REDIS_TIMEOUT}
 
 JWT:
@@ -22,7 +21,8 @@ mybatis:
   mapper-locations: classpath:/mybatis/mapper/*.xml
 
 ENCRYPT:
-  ENCRYPT_SECRET_KEY: {ENCRYPT_SECRET_KEY}
+#  ENCRYPT_SECRET_KEY: {ENCRYPT_SECRET_KEY}
+  ENCRYPT_SECRET_KEY: 12345678901234567890123456789012
 springdoc:
   swagger-ui:
     path: /swagger-ui.html

@@ -22,7 +22,7 @@ public class RedisConfig {
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration(
                 env.getProperty("spring.data.redis.host", String.class),
                 env.getProperty("spring.data.redis.port", Integer.class));
-        configuration.setPassword(env.getProperty("spring.data.redis.password", String.class));
+//        configuration.setPassword(env.getProperty("spring.data.redis.password", String.class));
         return new LettuceConnectionFactory(configuration);
     }
     @Bean
