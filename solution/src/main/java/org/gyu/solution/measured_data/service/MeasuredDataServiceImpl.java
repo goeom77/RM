@@ -8,13 +8,11 @@ import org.gyu.solution.log_data.dao.LogDataDao;
 import org.gyu.solution.log_data.entity.LogData;
 import org.gyu.solution.measured_data.dao.MeasuredDataDao;
 import org.gyu.solution.measured_data.dto.MeasuredDataDto;
-import org.gyu.solution.measured_data.entity.MeasuredData;
 import org.gyu.solution.measured_data.vo.MeasuredDataUsageIn;
 import org.gyu.solution.measured_data.vo.MeasuredDataUsageOut;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
