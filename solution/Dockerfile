@@ -4,7 +4,6 @@ COPY gradle gradle
 COPY build.gradle .
 COPY settings.gradle .
 COPY src src
-COPY mybatis-config.xml .
 RUN chmod +x ./gradlew
 RUN ./gradlew bootJAR
 
