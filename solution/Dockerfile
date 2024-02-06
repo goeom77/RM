@@ -1,13 +1,13 @@
+# Build Stage
 FROM openjdk:17-alpine AS builder
-COPY gradlew .
-COPY gradle gradle
-COPY build.gradle .
-COPY settings.gradle .
-COPY src src
-RUN chmod +x ./gradlew
-RUN ./gradlew bootJAR
+WORKDIR /app
+COPY . .
+RUN ./gradlew bootJar
 
+# Runtime Stage
 FROM openjdk:17-alpine
-COPY --from=builder build/libs/*.jar app.jar
+WORKDIR /app
+COPY --from=builder /app/build/libs/*.jar app.jar
+COPY mybatis-config.xml /app
 EXPOSE 8080
-ENTRYPOINT ["java", "-Duser.timezone=Asia/Seoul","-jar", "/app.jar"]
+ENTRYPOINT ["java", "-Duser.timezone=Asia/Seoul", "-jar", "/app/app.jar"]
