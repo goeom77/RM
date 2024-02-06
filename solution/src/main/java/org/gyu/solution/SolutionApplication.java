@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling // 스케줄링 활성화
 @MapperScan("org.gyu.solution.*.dao")
-@SpringBootApplication(exclude = {UserDetailsServiceAutoConfiguration.class})
+@SpringBootApplication
 public class SolutionApplication {
 
 	public static void main(String[] args) {
