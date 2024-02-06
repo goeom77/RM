@@ -17,6 +17,9 @@ import java.util.List;
 public class MeasuredDataSchedulerTasks {
     private final LogDataService logDataService;
     private final MeasuredDataService measuredDataService;
+    /**
+     * 매월 1일 0시에 log_data 를 기준으로 중간 정산하는 로직
+     */
     @Scheduled(cron = "0 0 0 1 * *") // 매월 1일 0시 0분 0초에 실행
     public void executeAllData() {
         System.out.println("executeAllData - scheduler start");
@@ -25,6 +28,9 @@ public class MeasuredDataSchedulerTasks {
         // 1일 0시를 기준으로 데이터 최근값 serviceId별로 조회
         List<LogData> latestLogDataByServiceId = logDataService.findLatestLogDataByServiceId(measuredDate, preMeasuredDate);
         // serviceId별로 조회한 데이터를 기준으로 월별 데이터 생성
-        measuredDataService.insertMeasuredDataByMonthDate(measuredDate, latestLogDataByServiceId);
+        for(LogData logData : latestLogDataByServiceId){ // 추후 batch로 변경
+            measuredDataService.insertMeasuredDataByMonthDate(measuredDate, logData);
+        }
     }
+
 }
