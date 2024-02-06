@@ -3,10 +3,12 @@ package org.gyu.solution.rm_service.dao;
 import org.apache.ibatis.annotations.*;
 import org.gyu.solution.rm_service.dto.ServiceDto;
 import org.gyu.solution.rm_service.entity.RmService;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Mapper
+@Repository
 public interface RmServiceDao {
     @Insert("INSERT INTO rm_service " +
             "(service_type, storage_size, created_date, expiration_date, limit_user, " +

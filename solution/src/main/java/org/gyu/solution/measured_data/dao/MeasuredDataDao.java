@@ -7,11 +7,13 @@ import org.apache.ibatis.annotations.Select;
 import org.gyu.solution.log_data.entity.LogData;
 import org.gyu.solution.measured_data.entity.MeasuredData;
 import org.gyu.solution.measured_data.vo.MeasuredDataUsageIn;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
+@Repository
 public interface MeasuredDataDao {
     @Insert("INSERT INTO measured_data " +
             "(total_storage_data, total_expiration_date, service_id, payable, created_date, updated_date) " +

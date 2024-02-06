@@ -3,11 +3,13 @@ package org.gyu.solution.data_usage.dao;
 import org.apache.ibatis.annotations.*;
 import org.gyu.solution.data_usage.dto.DataUsageDto;
 import org.gyu.solution.data_usage.entity.DataUsage;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
 @Mapper
+@Repository
 public interface DataUsageDao {
     @Insert("INSERT INTO " +
                 "data_usage (user_id, service_id, manager_id, status) " +
